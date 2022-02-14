@@ -1,11 +1,13 @@
 package com.example.sleeplogger.database
 
+import kotlinx.coroutines.flow.Flow
+
 object AppRepository {
     val sleepInfoDao = SleepDatabase.getInstance().sleepInfoDao
 
     suspend fun insertSleepInfo(sleepInfo: SleepInfo) = sleepInfoDao.insert(sleepInfo)
 
-    fun getAllSleepInfo() = sleepInfoDao.getAllSleepInfo()
+    fun getAllSleepInfo() : Flow<List<SleepInfo>> = sleepInfoDao.getAllSleepInfo()
 
     fun getOneSleepInfo(sleepId: Long) = sleepInfoDao.getOneSleepInfo(sleepId)
 

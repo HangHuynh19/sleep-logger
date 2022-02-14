@@ -7,39 +7,51 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.sleeplogger.R
 import com.example.sleeplogger.database.AppRepository
 import com.example.sleeplogger.databinding.FragmentAllSleepInfoBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class AllSleepInfoFragment : Fragment() {
+    private lateinit var _binding: FragmentAllSleepInfoBinding
+
+    private val binding get() = _binding
+
+    private lateinit var recyclerView: RecyclerView
+
+    private val viewModel: AllSleepInfoViewModel by activityViewModels {
+        AllSleepInfoViewModelFactory(AppRepository)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding =
-            DataBindingUtil.inflate<FragmentAllSleepInfoBinding>(
-                inflater, R.layout.fragment_all_sleep_info, container, false)
-
-        val dataSource = AppRepository
-        val allSleepInfoViewModel = AllSleepInfoViewModel(dataSource)
-
-        binding.allSleepInfoVM = allSleepInfoViewModel
-
-        val manager = LinearLayoutManager(this.activity)
-        binding.sleepLogsRv.layoutManager = manager
-
-        val adapter = SleepInfoAdapter()
-        binding.sleepLogsRv.adapter = adapter
-
-        binding.lifecycleOwner = this
-
-        //allSleepInfoViewModel.allSleepInfo.observe(viewLifecycleOwner, {
-        //    adapter.submitList(it)
-        //})
+        _binding =
+            FragmentAllSleepInfoBinding.inflate(
+                inflater, container, false)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = binding.sleepLogsRv
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val sleepInfoAdapter = SleepInfoAdapter()
+        recyclerView.adapter = sleepInfoAdapter
+        lifecycle.coroutineScope.launch {
+            viewModel.fullSleepLogs().collect() {
+                sleepInfoAdapter.submitList(it)
+            }
+        }
     }
 }

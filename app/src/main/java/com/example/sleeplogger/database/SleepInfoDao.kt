@@ -2,6 +2,7 @@ package com.example.sleeplogger.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SleepInfoDao {
@@ -12,7 +13,7 @@ interface SleepInfoDao {
     suspend fun update(dateInserted: String, sleepDuration: Double, sleepQuality: Int, timeAdded: Long)
 
     @Query("SELECT * FROM sleep_info ORDER BY time_added desc")
-    fun getAllSleepInfo() : LiveData<List<SleepInfo>>
+    fun getAllSleepInfo() : Flow<List<SleepInfo>>
 
     @Query("SELECT * FROM sleep_info WHERE sleepId = :key")
     fun getOneSleepInfo(key: Long) : SleepInfo?

@@ -6,4 +6,7 @@
     <string name="send_button">Send</string>
     <string name="minute_tv">minutes</string>
     <string name="hour_tv">hours</string>
+    <string name="date_tv">Date:</string>
+    <string name="sleep_duration_tv">Sleep duration:</string>
+    <string name="sleep_quality_tv">Sleep quality:</string>
 </resources>
