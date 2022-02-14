@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Sleep Logger</string>
+    <string name="date">Choose the date:</string>
+    <string name="sleep_duration">How long did you sleep?</string>
+    <string name="sleep_quality">How well did you sleep?</string>
+    <string name="send_button">Send</string>
+    <string name="minute_tv">minutes</string>
+    <string name="hour_tv">hours</string>
+</resources>

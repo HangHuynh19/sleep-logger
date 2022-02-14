@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loggerFragment">
+
+    <fragment
+        android:id="@+id/loggerFragment"
+        android:name="com.example.sleeplogger.loggerScreen.LoggerFragment"
+        android:label="fragment_logger"
+        tools:layout="@layout/fragment_logger" />
+    <fragment
+        android:id="@+id/allSleepInfoFragment"
+        android:name="com.example.sleeplogger.allSleepInfoScreen.AllSleepInfoFragment"
+        android:label="fragment_all_sleep_info"
+        tools:layout="@layout/fragment_all_sleep_info" >
+        <action
+            android:id="@+id/action_allSleepInfoFragment_to_loggerFragment"
+            app:destination="@id/loggerFragment" />
+    </fragment>
+</navigation>
