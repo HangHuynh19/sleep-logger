@@ -1,13 +1,15 @@
 package com.example.sleeplogger.database
 
+import kotlinx.coroutines.flow.Flow
+
 object AppRepository {
-    val sleepInfoDao = SleepDatabase.getInstance().sleepInfoDao
+    private val sleepInfoDao = SleepDatabase.getInstance().sleepInfoDao
 
     suspend fun insertSleepInfo(sleepInfo: SleepInfo) = sleepInfoDao.insert(sleepInfo)
 
-    fun getAllSleepInfo() = sleepInfoDao.getAllSleepInfo()
+    fun getAllSleepInfo() : Flow<List<SleepInfo>> = sleepInfoDao.getAllSleepInfo()
 
-    fun getOneSleepInfo(sleepId: Long) = sleepInfoDao.getOneSleepInfo(sleepId)
+    fun getOneSleepInfo(sleepId: Int) = sleepInfoDao.getOneSleepInfo(sleepId)
 
     suspend fun updateSleepInfo(dateRecorded: String,
                                 sleepDuration: Double,
@@ -15,7 +17,7 @@ object AppRepository {
                                 timeAdded: Long) =
         sleepInfoDao.update(dateRecorded, sleepDuration, sleepQuality, timeAdded)
 
-    suspend fun deleteSleepInfo(sleepId: Long) = sleepInfoDao.deleteOneSleepInfo(sleepId)
+    fun deleteSleepInfo(sleepId: Int) = sleepInfoDao.deleteOneSleepInfo(sleepId)
 
     suspend fun isRowExist(dateRecorded: String) = sleepInfoDao.isRowExist(dateRecorded)
 }

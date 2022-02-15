@@ -3,20 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/loggerFragment">
+    app:startDestination="@id/allSleepInfoFragment">
 
     <fragment
         android:id="@+id/loggerFragment"
         android:name="com.example.sleeplogger.loggerScreen.LoggerFragment"
         android:label="fragment_logger"
-        tools:layout="@layout/fragment_logger" />
+        tools:layout="@layout/fragment_logger" >
+        <action
+            android:id="@+id/action_loggerFragment_to_allSleepInfoFragment"
+            app:destination="@id/allSleepInfoFragment" />
+        <argument
+            android:name="sleepId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/allSleepInfoFragment"
         android:name="com.example.sleeplogger.allSleepInfoScreen.AllSleepInfoFragment"
         android:label="fragment_all_sleep_info"
         tools:layout="@layout/fragment_all_sleep_info" >
         <action
+            android:id="@+id/action_allSleepInfoFragment_to_sleepDetailsFragment"
+            app:destination="@id/sleepDetailsFragment"
+            app:popUpTo="@id/allSleepInfoFragment"
+            app:popUpToInclusive="false" />
+        <action
             android:id="@+id/action_allSleepInfoFragment_to_loggerFragment"
-            app:destination="@id/loggerFragment" />
+            app:destination="@id/loggerFragment"
+            app:popUpTo="@id/loggerFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/sleepDetailsFragment"
+        android:name="com.example.sleeplogger.sleepDetailsScreen.SleepDetailsFragment"
+        android:label="fragment_sleep_details"
+        tools:layout="@layout/fragment_sleep_details" >
+        <action
+            android:id="@+id/action_sleepDetailsFragment_to_loggerFragment"
+            app:destination="@id/loggerFragment"
+            app:popUpTo="@id/loggerFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_sleepDetailsFragment_to_allSleepInfoFragment"
+            app:destination="@id/allSleepInfoFragment" />
+        <argument
+            android:name="sleepId"
+            app:argType="integer" />
     </fragment>
 </navigation>

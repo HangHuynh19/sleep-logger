@@ -9,7 +9,8 @@
         <entry key="app/src/main/res/layout/fragment_logger_screen.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/fragment_sleep_details.xml" value="0.17916666666666667" />
         <entry key="app/src/main/res/layout/fragment_sleep_details_fragment.xml" value="0.16770833333333332" />
-        <entry key="app/src/main/res/layout/sleep_info_item_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/options_menu.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/sleep_info_item_layout.xml" value="0.375" />
       </map>
     </option>
   </component>

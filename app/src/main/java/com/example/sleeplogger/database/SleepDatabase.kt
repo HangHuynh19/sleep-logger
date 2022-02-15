@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.sleeplogger.MyApp
 
-@Database(entities = [SleepInfo::class], version = 2, exportSchema = false)
+@Database(entities = [SleepInfo::class], version = 4, exportSchema = false)
 abstract class SleepDatabase : RoomDatabase() {
     abstract val sleepInfoDao : SleepInfoDao
 
