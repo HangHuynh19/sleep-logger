@@ -9,4 +9,8 @@
     <string name="date_tv">Date:</string>
     <string name="sleep_duration_tv">Sleep duration:</string>
     <string name="sleep_quality_tv">Sleep quality:</string>
+    <string name="confirm_delete">Confirm delete?</string>
+    <string name="confirm_question">Are you sure you want to delete this log?</string>
+    <string name="yes_button">Yes</string>
+    <string name="no_button">No</string>
 </resources>

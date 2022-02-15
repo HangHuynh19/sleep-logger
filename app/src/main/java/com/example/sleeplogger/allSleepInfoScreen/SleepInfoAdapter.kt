@@ -8,22 +8,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sleeplogger.database.SleepInfo
 import com.example.sleeplogger.databinding.SleepInfoItemLayoutBinding
 
-class SleepInfoAdapter : ListAdapter<SleepInfo, SleepInfoAdapter.SleepInfoViewHolder>(SleepInfoDiffCallBack()) {
+class SleepInfoAdapter(private val onItemClicked: (SleepInfo) -> Unit) :
+    ListAdapter<SleepInfo, SleepInfoAdapter.AllSleepInfoViewHolder>(SleepInfoDiffCallBack()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepInfoViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllSleepInfoViewHolder {
 
-        return SleepInfoViewHolder(
+        val viewHolder = AllSleepInfoViewHolder(
             SleepInfoItemLayoutBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
+
+        viewHolder.itemView.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            onItemClicked(getItem(position))
+        }
+
+        return viewHolder
     }
 
-    override fun onBindViewHolder(holder: SleepInfoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AllSleepInfoViewHolder, position: Int) {
         holder.bind(getItem(position))
+
     }
 
-    class SleepInfoViewHolder(private var binding: SleepInfoItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class AllSleepInfoViewHolder (private var binding: SleepInfoItemLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: SleepInfo) {
             binding.dateTv.text = item.dateRecorded
             binding.sleepDurationTv.text = item.sleepDuration.toString()
@@ -41,3 +52,4 @@ class SleepInfoDiffCallBack : DiffUtil.ItemCallback<SleepInfo>() {
         return oldItem == newItem
     }
 }
+

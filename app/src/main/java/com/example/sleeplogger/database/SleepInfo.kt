@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "sleep_info")
 data class SleepInfo(
     @PrimaryKey(autoGenerate = true)
-    var sleepId: Long = 0L,
+    var sleepId: Int = 0,
     @ColumnInfo(name = "date_recorded")
     var dateRecorded: String = "",
     @ColumnInfo(name = "sleep_duration")

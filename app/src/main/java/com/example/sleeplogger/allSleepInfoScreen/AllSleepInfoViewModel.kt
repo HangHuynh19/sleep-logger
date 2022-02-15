@@ -1,18 +1,20 @@
 package com.example.sleeplogger.allSleepInfoScreen
 
-import android.util.Log
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.sleeplogger.database.AppRepository
 import com.example.sleeplogger.database.SleepInfo
-import com.example.sleeplogger.loggerScreen.LoggerViewModel
 import kotlinx.coroutines.flow.Flow
 
 class AllSleepInfoViewModel(dataSource: AppRepository) : ViewModel() {
     val database = dataSource
 
     fun fullSleepLogs(): Flow<List<SleepInfo>> = database.getAllSleepInfo()
+
+    private val _navigateToSleepDetail = MutableLiveData<Int?>()
+    private val navigateToSleepDetail
+        get() = _navigateToSleepDetail
 }
 
 class AllSleepInfoViewModelFactory (private val dataSource: AppRepository) : ViewModelProvider.Factory {
