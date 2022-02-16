@@ -11,10 +11,6 @@ class AllSleepInfoViewModel(dataSource: AppRepository) : ViewModel() {
     val database = dataSource
 
     fun fullSleepLogs(): Flow<List<SleepInfo>> = database.getAllSleepInfo()
-
-    private val _navigateToSleepDetail = MutableLiveData<Int?>()
-    private val navigateToSleepDetail
-        get() = _navigateToSleepDetail
 }
 
 class AllSleepInfoViewModelFactory (private val dataSource: AppRepository) : ViewModelProvider.Factory {

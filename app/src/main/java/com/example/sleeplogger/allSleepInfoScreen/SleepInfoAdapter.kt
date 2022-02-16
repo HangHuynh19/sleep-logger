@@ -5,8 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sleeplogger.convertDateForDisplay
+import com.example.sleeplogger.convertMinutesForDisplay
 import com.example.sleeplogger.database.SleepInfo
 import com.example.sleeplogger.databinding.SleepInfoItemLayoutBinding
+import kotlin.math.floor
 
 class SleepInfoAdapter(private val onItemClicked: (SleepInfo) -> Unit) :
     ListAdapter<SleepInfo, SleepInfoAdapter.AllSleepInfoViewHolder>(SleepInfoDiffCallBack()) {
@@ -36,8 +39,11 @@ class SleepInfoAdapter(private val onItemClicked: (SleepInfo) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SleepInfo) {
-            binding.dateTv.text = item.dateRecorded
-            binding.sleepDurationTv.text = item.sleepDuration.toString()
+            val sleepDurationText: String = "${floor(item.sleepDuration).toInt()} hours " +
+                    "${convertMinutesForDisplay(item.sleepDuration)} minutes"
+
+            binding.dateTv.text = convertDateForDisplay(item.dateRecorded)
+            binding.sleepDurationTv.text = sleepDurationText
             binding.ratingTv.text = item.sleepQuality.toString()
         }
     }
@@ -52,4 +58,3 @@ class SleepInfoDiffCallBack : DiffUtil.ItemCallback<SleepInfo>() {
         return oldItem == newItem
     }
 }
-
