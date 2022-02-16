@@ -1,4 +1,4 @@
-### Sleep Logger App
+# Sleep Logger App
 
 ## Project Description
 This app allows users to record their sleep (date, sleep duration and sleep quality). In addition, the users can also view, modify and delete their sleep logs. 
