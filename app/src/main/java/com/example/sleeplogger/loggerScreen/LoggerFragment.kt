@@ -12,9 +12,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.sleeplogger.R
+import com.example.sleeplogger.convertMinutesForDisplay
+import com.example.sleeplogger.convertTimeInputForDatabase
 import com.example.sleeplogger.database.AppRepository
 import com.example.sleeplogger.databinding.FragmentLoggerBinding
+import com.example.sleeplogger.modifyDateInputForDatabase
 import com.example.sleeplogger.sleepDetailsScreen.SleepDetailsFragmentArgs
+import kotlin.math.floor
 import kotlin.math.roundToInt
 
 class LoggerFragment : Fragment() {
@@ -45,40 +49,47 @@ class LoggerFragment : Fragment() {
         binding.loggerViewModel = loggerViewModel
         binding.lifecycleOwner = this
 
+        setUpListeners()
+
         if (arguments == null || arguments.sleepId == -1) {
             binding.apply {
-                hourInput.setText("")
-                minuteInput.setText("")
+                hourInput.setText("0")
+                minuteInput.setText("0")
                 ratingBar.rating = 0F
             }
         } else {
             loggerViewModel?.sleepLog?.observe(viewLifecycleOwner) {
-                val minutes = it?.sleepDuration?.minus(it?.sleepDuration.roundToInt())?.times(60)
+                val minutes =
+                    it?.let { sleepInfo -> convertMinutesForDisplay(sleepInfo.sleepDuration) }
+
                 binding.apply {
-                    hourInput.setText(it?.sleepDuration?.roundToInt().toString())
-                    minuteInput.setText(minutes?.toInt().toString())
-                    ratingBar.rating = it?.sleepQuality?.toFloat() ?: 0F
+                    if (it != null) {
+                        hourInput.setText(floor(it.sleepDuration).toInt().toString())
+                        minuteInput.setText(minutes?.toInt().toString())
+                        ratingBar.rating = it.sleepQuality.toFloat() ?: 0F
+                    }
                 }
             }
         }
 
-        setUpListeners()
-
         binding.sendButton.setOnClickListener {
-            val dateSelected = "${binding.datePicker.dayOfMonth}" +
-                    "-${binding.datePicker.month + 1}-${binding.datePicker.year}"
-
-            /*val dateSelected = "${binding.datePicker.year}" +
-                    "-${binding.datePicker.month + 1}-${binding.datePicker.dayOfMonth}"*/
-
-            val sleepInHours = binding.hourInput.text.toString().toInt()
-            val sleepInMinutes = binding.minuteInput.text.toString().toInt()
 
             if (isValid()) {
+                val dateSelected = modifyDateInputForDatabase(
+                    binding.datePicker.dayOfMonth,
+                    binding.datePicker.month + 1, binding.datePicker.year
+                )
+
+                val timeSelected =
+                    convertTimeInputForDatabase(
+                        binding.hourInput.text.toString(),
+                        binding.minuteInput.text.toString()
+                    )
+
                 loggerViewModel?.apply {
                     onSendButtonClicked(
                         dateSelected,
-                        1.00 * (sleepInHours + sleepInMinutes / 60),
+                        timeSelected,
                         binding.ratingBar.rating.toInt(),
                         System.currentTimeMillis()
                     )
@@ -86,15 +97,10 @@ class LoggerFragment : Fragment() {
                     Toast.makeText(context, "Log submitted", Toast.LENGTH_SHORT).show()
 
                     view?.findNavController()?.navigate(
-                        LoggerFragmentDirections.actionLoggerFragmentToAllSleepInfoFragment())
+                        LoggerFragmentDirections.actionLoggerFragmentToAllSleepInfoFragment()
+                    )
                 }
-            } else {
-                Toast.makeText(context, "Invalid input", Toast.LENGTH_SHORT).show()
             }
-
-            binding.hourInput.text = null
-            binding.minuteInput.text = null
-            binding.ratingBar.rating = 0F
         }
 
         return binding.root

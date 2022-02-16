@@ -11,8 +11,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.sleeplogger.R
+import com.example.sleeplogger.convertDateForDisplay
+import com.example.sleeplogger.convertMinutesForDisplay
 import com.example.sleeplogger.database.AppRepository
 import com.example.sleeplogger.databinding.FragmentSleepDetailsBinding
+import kotlin.math.floor
 
 class SleepDetailsFragment : Fragment() {
     val dataSource = AppRepository
@@ -41,10 +44,18 @@ class SleepDetailsFragment : Fragment() {
         binding.lifecycleOwner = this
 
         sleepDetailsViewModel?.sleepLog?.observe(viewLifecycleOwner) {
+            val sleepDurationDisplay: String =
+                "${it?.let { sleepInfo -> floor(sleepInfo.sleepDuration).toInt() }} hours " +
+                        "${it?.let { 
+                                sleepInfo -> convertMinutesForDisplay(sleepInfo.sleepDuration)
+                        }} minutes"
+
             binding.apply {
-                dateTv.text = it?.dateRecorded
-                sleepDurationTv.text = it?.sleepDuration.toString()
-                ratingTv.text = it?.sleepQuality.toString()
+                if(it != null) {
+                    dateTv.text = convertDateForDisplay(it.dateRecorded)
+                    sleepDurationTv.text = sleepDurationDisplay
+                    ratingTv.text = it.sleepQuality.toString()
+                }
             }
         }
 
@@ -72,7 +83,7 @@ class SleepDetailsFragment : Fragment() {
 
         builder.setTitle(getString(R.string.confirm_delete))
         builder.setMessage(getString(R.string.confirm_question))
-        builder.setPositiveButton(getString(R.string.yes_button), DialogInterface.OnClickListener { dialog, id ->
+        builder.setPositiveButton(getString(R.string.yes_button), DialogInterface.OnClickListener { dialog, _ ->
             Thread(Runnable {
                 dataSource.deleteSleepInfo(sleepId)
             }).start()
@@ -80,7 +91,7 @@ class SleepDetailsFragment : Fragment() {
             view?.findNavController()
                 ?.navigate(SleepDetailsFragmentDirections.actionSleepDetailsFragmentToAllSleepInfoFragment())
         })
-        builder.setNegativeButton(getString(R.string.no_button), DialogInterface.OnClickListener { dialog, id ->
+        builder.setNegativeButton(getString(R.string.no_button), DialogInterface.OnClickListener { dialog, _ ->
             dialog.cancel()
         })
 

@@ -3,12 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.134" />
+        <entry key="app/src/main/res/drawable/line_divider.xml" value="0.134" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16770833333333332" />
-        <entry key="app/src/main/res/layout/fragment_all_sleep_info.xml" value="0.23550724637681159" />
+        <entry key="app/src/main/res/layout/fragment_all_sleep_info.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_logger.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_logger_screen.xml" value="0.16770833333333332" />
-        <entry key="app/src/main/res/layout/fragment_sleep_details.xml" value="0.17916666666666667" />
+        <entry key="app/src/main/res/layout/fragment_sleep_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_sleep_details_fragment.xml" value="0.16770833333333332" />
+        <entry key="app/src/main/res/layout/line_divider.xml" value="0.2259963768115942" />
         <entry key="app/src/main/res/layout/options_menu.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/sleep_info_item_layout.xml" value="0.375" />
       </map>
